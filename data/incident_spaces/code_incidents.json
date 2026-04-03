@@ -1,0 +1,182 @@
+[
+  {
+    "incident_id": 1,
+    "symptom": "Model outputs NaN",
+    "root_cause": "Division by zero",
+    "resolution": "Add numerical stability checks"
+  },
+  {
+    "incident_id": 2,
+    "symptom": "Training crashes",
+    "root_cause": "Invalid tensor shapes",
+    "resolution": "Validate input dimensions"
+  },
+  {
+    "incident_id": 3,
+    "symptom": "Incorrect predictions",
+    "root_cause": "Bug in preprocessing code",
+    "resolution": "Fix preprocessing logic"
+  },
+  {
+    "incident_id": 4,
+    "symptom": "Model not converging",
+    "root_cause": "Wrong loss function",
+    "resolution": "Use appropriate loss"
+  },
+  {
+    "incident_id": 5,
+    "symptom": "Gradients always zero",
+    "root_cause": "Detached computation graph",
+    "resolution": "Fix gradient flow"
+  },
+  {
+    "incident_id": 6,
+    "symptom": "Exploding gradients",
+    "root_cause": "Unstable training loop",
+    "resolution": "Apply gradient clipping"
+  },
+  {
+    "incident_id": 7,
+    "symptom": "Slow execution",
+    "root_cause": "Inefficient loops",
+    "resolution": "Vectorize operations"
+  },
+  {
+    "incident_id": 8,
+    "symptom": "Wrong evaluation metrics",
+    "root_cause": "Incorrect implementation",
+    "resolution": "Fix metric calculation"
+  },
+  {
+    "incident_id": 9,
+    "symptom": "Code crashes on edge cases",
+    "root_cause": "Unhandled conditions",
+    "resolution": "Add edge case handling"
+  },
+  {
+    "incident_id": 10,
+    "symptom": "Memory leak",
+    "root_cause": "Unused variables retained",
+    "resolution": "Release memory properly"
+  },
+  {
+    "incident_id": 11,
+    "symptom": "Incorrect batching",
+    "root_cause": "Bug in data loader",
+    "resolution": "Fix batching logic"
+  },
+  {
+    "incident_id": 12,
+    "symptom": "Wrong feature order",
+    "root_cause": "Mismatch in pipeline",
+    "resolution": "Align feature order"
+  },
+  {
+    "incident_id": 13,
+    "symptom": "Random results",
+    "root_cause": "Seed not fixed",
+    "resolution": "Set random seeds"
+  },
+  {
+    "incident_id": 14,
+    "symptom": "Code fails in production",
+    "root_cause": "Hardcoded paths",
+    "resolution": "Use config files"
+  },
+  {
+    "incident_id": 15,
+    "symptom": "Incorrect model saving",
+    "root_cause": "Wrong serialization",
+    "resolution": "Use proper save method"
+  },
+  {
+    "incident_id": 16,
+    "symptom": "Mismatch in tensor devices",
+    "root_cause": "CPU-GPU mix",
+    "resolution": "Move tensors consistently"
+  },
+  {
+    "incident_id": 17,
+    "symptom": "Code duplication",
+    "root_cause": "Poor modularization",
+    "resolution": "Refactor code"
+  },
+  {
+    "incident_id": 18,
+    "symptom": "Silent failures",
+    "root_cause": "Exception not handled",
+    "resolution": "Add logging"
+  },
+  {
+    "incident_id": 19,
+    "symptom": "Incorrect gradients",
+    "root_cause": "Wrong backward pass",
+    "resolution": "Debug autograd"
+  },
+  {
+    "incident_id": 20,
+    "symptom": "Inconsistent outputs",
+    "root_cause": "Non-deterministic ops",
+    "resolution": "Use deterministic settings"
+  },
+  {
+    "incident_id": 21,
+    "symptom": "API crashes",
+    "root_cause": "Unhandled exceptions",
+    "resolution": "Add error handling"
+  },
+  {
+    "incident_id": 22,
+    "symptom": "Incorrect logging",
+    "root_cause": "Misconfigured logger",
+    "resolution": "Fix logging setup"
+  },
+  {
+    "incident_id": 23,
+    "symptom": "Code not portable",
+    "root_cause": "Platform-specific code",
+    "resolution": "Generalize implementation"
+  },
+  {
+    "incident_id": 24,
+    "symptom": "Incorrect hyperparameters",
+    "root_cause": "Hardcoded values",
+    "resolution": "Use config system"
+  },
+  {
+    "incident_id": 25,
+    "symptom": "Deadlocks in pipeline",
+    "root_cause": "Improper threading",
+    "resolution": "Fix concurrency logic"
+  },
+  {
+    "incident_id": 26,
+    "symptom": "Model not updating",
+    "root_cause": "Optimizer not applied",
+    "resolution": "Check optimizer step"
+  },
+  {
+    "incident_id": 27,
+    "symptom": "Incorrect evaluation split",
+    "root_cause": "Bug in splitting logic",
+    "resolution": "Fix dataset split"
+  },
+  {
+    "incident_id": 28,
+    "symptom": "Code runs but wrong results",
+    "root_cause": "Logical bug",
+    "resolution": "Add unit tests"
+  },
+  {
+    "incident_id": 29,
+    "symptom": "Version conflicts",
+    "root_cause": "Dependency mismatch",
+    "resolution": "Pin versions"
+  },
+  {
+    "incident_id": 30,
+    "symptom": "Function outputs incorrect shape",
+    "root_cause": "Bug in transformation",
+    "resolution": "Fix shape handling"
+  }
+]

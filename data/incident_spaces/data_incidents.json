@@ -1,0 +1,182 @@
+[
+  {
+    "incident_id": 1,
+    "symptom": "Sudden drop in model accuracy",
+    "root_cause": "Corrupted training dataset",
+    "resolution": "Validate dataset integrity and reload clean data"
+  },
+  {
+    "incident_id": 2,
+    "symptom": "Missing values in predictions",
+    "root_cause": "Null values in input features",
+    "resolution": "Apply imputation or filtering strategies"
+  },
+  {
+    "incident_id": 3,
+    "symptom": "Model bias toward certain groups",
+    "root_cause": "Biased training data",
+    "resolution": "Rebalance dataset and apply fairness constraints"
+  },
+  {
+    "incident_id": 4,
+    "symptom": "Unexpected categorical values in production",
+    "root_cause": "Unseen categories during training",
+    "resolution": "Add fallback encoding or retrain with new categories"
+  },
+  {
+    "incident_id": 5,
+    "symptom": "Feature distributions differ in production",
+    "root_cause": "Data drift",
+    "resolution": "Monitor distributions and retrain periodically"
+  },
+  {
+    "incident_id": 6,
+    "symptom": "Duplicate records affecting training",
+    "root_cause": "Improper data deduplication",
+    "resolution": "Remove duplicates before training"
+  },
+  {
+    "incident_id": 7,
+    "symptom": "Incorrect labels in dataset",
+    "root_cause": "Labeling errors",
+    "resolution": "Audit and correct labels"
+  },
+  {
+    "incident_id": 8,
+    "symptom": "Low model generalization",
+    "root_cause": "Overfitting to noisy data",
+    "resolution": "Clean dataset and apply regularization"
+  },
+  {
+    "incident_id": 9,
+    "symptom": "Inconsistent feature scaling",
+    "root_cause": "Different preprocessing pipelines",
+    "resolution": "Standardize preprocessing steps"
+  },
+  {
+    "incident_id": 10,
+    "symptom": "Skewed target variable distribution",
+    "root_cause": "Imbalanced dataset",
+    "resolution": "Use resampling techniques"
+  },
+  {
+    "incident_id": 11,
+    "symptom": "Outliers causing unstable training",
+    "root_cause": "Extreme data points",
+    "resolution": "Apply outlier detection and removal"
+  },
+  {
+    "incident_id": 12,
+    "symptom": "Slow data loading",
+    "root_cause": "Inefficient storage format",
+    "resolution": "Use optimized formats like Parquet"
+  },
+  {
+    "incident_id": 13,
+    "symptom": "Feature leakage",
+    "root_cause": "Future data used in training",
+    "resolution": "Ensure proper train-test split"
+  },
+  {
+    "incident_id": 14,
+    "symptom": "Incorrect joins in dataset",
+    "root_cause": "Mismatched keys",
+    "resolution": "Validate join conditions"
+  },
+  {
+    "incident_id": 15,
+    "symptom": "Missing timestamps",
+    "root_cause": "Incomplete logging",
+    "resolution": "Ensure proper data collection pipeline"
+  },
+  {
+    "incident_id": 16,
+    "symptom": "High variance in predictions",
+    "root_cause": "Noisy input data",
+    "resolution": "Smooth or filter data"
+  },
+  {
+    "incident_id": 17,
+    "symptom": "Incorrect feature encoding",
+    "root_cause": "Wrong encoding method",
+    "resolution": "Apply appropriate encoding strategy"
+  },
+  {
+    "incident_id": 18,
+    "symptom": "Data pipeline crashes",
+    "root_cause": "Schema mismatch",
+    "resolution": "Validate schema before processing"
+  },
+  {
+    "incident_id": 19,
+    "symptom": "Unexpected missing columns",
+    "root_cause": "Upstream data change",
+    "resolution": "Add schema validation checks"
+  },
+  {
+    "incident_id": 20,
+    "symptom": "Incorrect normalization",
+    "root_cause": "Using wrong statistics",
+    "resolution": "Compute stats from training data only"
+  },
+  {
+    "incident_id": 21,
+    "symptom": "Data pipeline latency increases",
+    "root_cause": "Large data volume",
+    "resolution": "Implement batching"
+  },
+  {
+    "incident_id": 22,
+    "symptom": "Inconsistent data formats",
+    "root_cause": "Multiple data sources",
+    "resolution": "Standardize format"
+  },
+  {
+    "incident_id": 23,
+    "symptom": "Data duplication in production",
+    "root_cause": "Improper ingestion logic",
+    "resolution": "Fix ingestion pipeline"
+  },
+  {
+    "incident_id": 24,
+    "symptom": "Incorrect time alignment",
+    "root_cause": "Timezone mismatch",
+    "resolution": "Normalize timestamps"
+  },
+  {
+    "incident_id": 25,
+    "symptom": "Data loss during transformation",
+    "root_cause": "Faulty transformation logic",
+    "resolution": "Add validation checks"
+  },
+  {
+    "incident_id": 26,
+    "symptom": "Unexpected feature correlation",
+    "root_cause": "Data leakage",
+    "resolution": "Remove leaking features"
+  },
+  {
+    "incident_id": 27,
+    "symptom": "Sparse data causing poor performance",
+    "root_cause": "Insufficient data",
+    "resolution": "Collect more data"
+  },
+  {
+    "incident_id": 28,
+    "symptom": "Incorrect aggregation results",
+    "root_cause": "Wrong grouping logic",
+    "resolution": "Fix aggregation queries"
+  },
+  {
+    "incident_id": 29,
+    "symptom": "Delayed data updates",
+    "root_cause": "Slow ETL pipeline",
+    "resolution": "Optimize ETL jobs"
+  },
+  {
+    "incident_id": 30,
+    "symptom": "Inconsistent labels across datasets",
+    "root_cause": "Multiple labeling standards",
+    "resolution": "Unify labeling guidelines"
+  }
+]

@@ -1,0 +1,182 @@
+[
+  {
+    "incident_id": 1,
+    "symptom": "GPU out of memory error",
+    "root_cause": "Batch size too large",
+    "resolution": "Reduce batch size"
+  },
+  {
+    "incident_id": 2,
+    "symptom": "CPU usage spikes",
+    "root_cause": "Inefficient parallelism",
+    "resolution": "Optimize threading"
+  },
+  {
+    "incident_id": 3,
+    "symptom": "Training extremely slow",
+    "root_cause": "No GPU utilization",
+    "resolution": "Enable GPU acceleration"
+  },
+  {
+    "incident_id": 4,
+    "symptom": "High latency inference",
+    "root_cause": "Heavy model",
+    "resolution": "Use model quantization"
+  },
+  {
+    "incident_id": 5,
+    "symptom": "Frequent OOM crashes",
+    "root_cause": "Memory leak",
+    "resolution": "Fix memory allocation"
+  },
+  {
+    "incident_id": 6,
+    "symptom": "Low GPU utilization",
+    "root_cause": "Data bottleneck",
+    "resolution": "Optimize data pipeline"
+  },
+  {
+    "incident_id": 7,
+    "symptom": "Disk I/O bottleneck",
+    "root_cause": "Frequent reads",
+    "resolution": "Cache data"
+  },
+  {
+    "incident_id": 8,
+    "symptom": "Training job killed",
+    "root_cause": "Exceeded resource quota",
+    "resolution": "Request higher quota"
+  },
+  {
+    "incident_id": 9,
+    "symptom": "Slow model loading",
+    "root_cause": "Large model size",
+    "resolution": "Compress model"
+  },
+  {
+    "incident_id": 10,
+    "symptom": "Network latency spikes",
+    "root_cause": "High traffic",
+    "resolution": "Use load balancing"
+  },
+  {
+    "incident_id": 11,
+    "symptom": "Autoscaling not triggering",
+    "root_cause": "Wrong thresholds",
+    "resolution": "Adjust scaling policies"
+  },
+  {
+    "incident_id": 12,
+    "symptom": "Frequent container restarts",
+    "root_cause": "Resource exhaustion",
+    "resolution": "Increase limits"
+  },
+  {
+    "incident_id": 13,
+    "symptom": "Long queue times",
+    "root_cause": "Insufficient workers",
+    "resolution": "Scale workers"
+  },
+  {
+    "incident_id": 14,
+    "symptom": "High memory fragmentation",
+    "root_cause": "Inefficient allocation",
+    "resolution": "Optimize memory usage"
+  },
+  {
+    "incident_id": 15,
+    "symptom": "GPU overheating",
+    "root_cause": "High workload",
+    "resolution": "Improve cooling"
+  },
+  {
+    "incident_id": 16,
+    "symptom": "Slow checkpoint saving",
+    "root_cause": "Disk bottleneck",
+    "resolution": "Use faster storage"
+  },
+  {
+    "incident_id": 17,
+    "symptom": "Cluster instability",
+    "root_cause": "Node failures",
+    "resolution": "Replace faulty nodes"
+  },
+  {
+    "incident_id": 18,
+    "symptom": "High latency in distributed training",
+    "root_cause": "Communication overhead",
+    "resolution": "Optimize communication"
+  },
+  {
+    "incident_id": 19,
+    "symptom": "Underutilized cluster",
+    "root_cause": "Poor scheduling",
+    "resolution": "Improve job scheduler"
+  },
+  {
+    "incident_id": 20,
+    "symptom": "Frequent timeouts",
+    "root_cause": "Slow compute",
+    "resolution": "Optimize compute tasks"
+  },
+  {
+    "incident_id": 21,
+    "symptom": "Slow data transfer",
+    "root_cause": "Network bottleneck",
+    "resolution": "Upgrade bandwidth"
+  },
+  {
+    "incident_id": 22,
+    "symptom": "High CPU wait time",
+    "root_cause": "I/O blocking",
+    "resolution": "Use async operations"
+  },
+  {
+    "incident_id": 23,
+    "symptom": "Resource contention",
+    "root_cause": "Multiple jobs",
+    "resolution": "Isolate workloads"
+  },
+  {
+    "incident_id": 24,
+    "symptom": "Low throughput",
+    "root_cause": "Single-threaded execution",
+    "resolution": "Parallelize tasks"
+  },
+  {
+    "incident_id": 25,
+    "symptom": "Slow startup time",
+    "root_cause": "Heavy initialization",
+    "resolution": "Lazy load components"
+  },
+  {
+    "incident_id": 26,
+    "symptom": "Cache misses high",
+    "root_cause": "Poor caching strategy",
+    "resolution": "Optimize cache"
+  },
+  {
+    "incident_id": 27,
+    "symptom": "High GPU idle time",
+    "root_cause": "Pipeline inefficiency",
+    "resolution": "Improve scheduling"
+  },
+  {
+    "incident_id": 28,
+    "symptom": "Frequent disk full errors",
+    "root_cause": "Logs accumulation",
+    "resolution": "Clean logs regularly"
+  },
+  {
+    "incident_id": 29,
+    "symptom": "Slow container builds",
+    "root_cause": "Large dependencies",
+    "resolution": "Optimize Dockerfile"
+  },
+  {
+    "incident_id": 30,
+    "symptom": "Job failures in distributed setup",
+    "root_cause": "Node communication issues",
+    "resolution": "Debug network layer"
+  }
+]
