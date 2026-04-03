@@ -69,9 +69,10 @@ if __name__ == '__main__':
         print('vector-embed-shape: ', vector_embed_cache[key].index.ntotal, vector_embed_cache[key].index.d)
         
     user_query = "My model's accuracy suddenly dropped after yesterday's deployment. What should I check?"
+    
     ## out-of-distrib.
     # user_query = "My eyes are feverish yellow, not the model look one would have since yesterday. What should I check?"
-    user_query = "My model is suddenly facing memory botteleneck RAM after yesterday's test when it was perfect. What should I check?"
+    # user_query = "My model is suddenly facing memory botteleneck RAM after yesterday's test when it was perfect. What should I check?"
     
     print(f"User Query: '{user_query}'\n")
     
@@ -85,6 +86,7 @@ if __name__ == '__main__':
     
     ## Decoder LLM (TinyLLAMA)
     llm = load_llm(model_name='openai')   
+    llm_with_tools = llm.bind_tools([query_grafana_metrics, run_shap_explainer])
     
     pprint(llm)
     
@@ -92,14 +94,19 @@ if __name__ == '__main__':
     print(f"Agent Router classified this as: {category}\n")
     
     ## better to use a vector_embedd cache
+    agent_decision = llm_with_tools.invoke(user_query)
+
+    live_tool_results = 'No live tools data required.'                
+    if agent_decision.tool_calls:
+        live_tool_results = agent_tool_call(agent_decision)
+    else:
+        print(live_tool_results)
+                
     rag_chain = build_rag_chain(vector_embed_cache[category], llm)
-    response = rag_chain.invoke(user_query)
-    
+    response = rag_chain.invoke({"query": user_query, "live_metrics": live_tool_results})
+
     
     print("=== AI Diagnostic Report ===")
     print(response)
-    
-    ### Streamlit
-    stream_frontend(load_vector_embed=vector_embed_cache, load_llm=llm)
     
     

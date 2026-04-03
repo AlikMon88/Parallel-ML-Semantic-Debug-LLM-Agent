@@ -14,6 +14,7 @@ def stream_frontend(load_vector_embed, load_llm):
     with st.spinner("Initializing AI Models and Vector Databases..."):
         vector_stores = load_vector_embed.copy()
         llm = load_llm.copy()
+        llm_with_tools = llm.bind_tools([query_grafana_metrics, run_shap_explainer])
 
     # UI Form
     user_query = st.text_area("Describe your ML Issue:", placeholder="e.g., My training job keeps crashing with CUDA out of memory on step 500.")
@@ -24,6 +25,16 @@ def stream_frontend(load_vector_embed, load_llm):
         else:
             # Routing (Displaying the thought process)
             with st.status("Agent thinking...", expanded=True) as status:
+                live_tool_results = 'No live tools data required.'
+                
+                st.write('Evaluating if live diagonistic tool are needed ...')
+                agent_decision = llm_with_tools.invoke(user_query)
+                
+                if agent_decision.tool_calls:
+                    live_tool_results = agent_tool_call(agent_decision)                    
+                else:
+                    st.write(live_tool_results)
+                    
                 st.write("1. Analyzing user intent...")
                 category = route_query(user_query, llm)
                 
@@ -33,7 +44,7 @@ def stream_frontend(load_vector_embed, load_llm):
                 st.write("3. Retrieving historical context & generating diagnosis...")
                 ## better to use a vector_embedd cache
                 rag_chain = build_rag_chain(selected_vs, llm)
-                response = rag_chain.invoke(user_query)
+                response = rag_chain.invoke({"query": user_query, "live_metrics": live_tool_results})
                 status.update(label="Diagnosis Complete!", state="complete", expanded=False)
             
             # Final Output
