@@ -25,7 +25,7 @@ def stream_frontend(load_vector_embed, load_llm):
         else:
             # Routing (Displaying the thought process)
             with st.status("Agent thinking...", expanded=True) as status:
-                live_tool_results = 'No live tools data required.'
+                live_tool_results = 'Agent: No live tools data required.'
                 
                 st.write('Evaluating if live diagonistic tool are needed ...')
                 agent_decision = llm_with_tools.invoke(user_query)

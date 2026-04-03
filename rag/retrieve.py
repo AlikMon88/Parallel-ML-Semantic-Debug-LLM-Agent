@@ -2,7 +2,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
 
-def build_rag_chain(query, live_metrics, vector_store, llm):
+def build_rag_chain(vector_store, llm): #query, live_metrics, 
     # Retrieve top 2 most similar past incidents
     retriever = vector_store.as_retriever(search_kwargs={"k": 2}) ## similarity_match and doc-stringified retrieval
     
@@ -31,9 +31,9 @@ def build_rag_chain(query, live_metrics, vector_store, llm):
     def format_docs(docs):
         return "\n\n".join(doc.page_content for doc in docs)
     
-    # LCEL Chain: Retrieve context -> Inject to Prompt -> LLM -> String Output
+    # LCEL Chain: strInput (from input-dict) -> Retrieve context -> Inject to Prompt -> LLM -> String Output
     rag_chain = (
-        {"context": retriever | format_docs, "query": RunnablePassthrough(), "live_metrics": RunnablePassthrough()}
+        {"context": (lambda k: k['query']) | retriever | format_docs, "query": RunnablePassthrough(), "live_metrics": RunnablePassthrough()}
         | prompt
         | llm
         | StrOutputParser()

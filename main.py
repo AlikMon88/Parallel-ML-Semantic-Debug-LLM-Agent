@@ -105,7 +105,6 @@ if __name__ == '__main__':
     rag_chain = build_rag_chain(vector_embed_cache[category], llm)
     response = rag_chain.invoke({"query": user_query, "live_metrics": live_tool_results})
 
-    
     print("=== AI Diagnostic Report ===")
     print(response)
     
