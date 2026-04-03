@@ -68,38 +68,12 @@ if __name__ == '__main__':
         vector_embed_cache[key] = create_vector_store(documents) ## BERT-based embedding-vector (encoder-architechture)
         print('vector-embed-shape: ', vector_embed_cache[key].index.ntotal, vector_embed_cache[key].index.d)
         
-    user_query = "My model's accuracy suddenly dropped after yesterday's deployment. What should I check?"
-    ## out-of-distrib.
-    # user_query = "My eyes are feverish yellow, not the model look one would have since yesterday. What should I check?"
-    user_query = "My model is suddenly facing memory botteleneck RAM after yesterday's test when it was perfect. What should I check?"
     
-    print(f"User Query: '{user_query}'\n")
-    
-    print('SIMILARITY-SEARCH')
-    docs = vector_embed_cache['[CODE]'].similarity_search(user_query, k=2)
-    for d in docs:
-        print(d.page_content)
-        print("---")
-    
-    # sys.exit()
-    
-    ## Decoder LLM (TinyLLAMA)
+    ## Decoder LLM (TinyLLAMA/GPT-4o-mini)
     llm = load_llm(model_name='openai')   
     
-    pprint(llm)
     
-    category = route_query(user_query, llm)
-    print(f"Agent Router classified this as: {category}\n")
-    
-    ## better to use a vector_embedd cache
-    rag_chain = build_rag_chain(vector_embed_cache[category], llm)
-    response = rag_chain.invoke(user_query)
-    
-    
-    print("=== AI Diagnostic Report ===")
-    print(response)
-    
-    ### Streamlit
+    ### Streamlit / FrontEnd
     stream_frontend(load_vector_embed=vector_embed_cache, load_llm=llm)
     
     

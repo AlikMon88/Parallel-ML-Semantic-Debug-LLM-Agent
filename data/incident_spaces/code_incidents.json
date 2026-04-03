@@ -1,182 +1,182 @@
 [
   {
     "incident_id": 1,
-    "symptom": "Model outputs NaN",
-    "root_cause": "Division by zero",
-    "resolution": "Add numerical stability checks"
+    "symptom": "Training loss becomes NaN after a few iterations, especially with larger batch sizes",
+    "root_cause": "Numerical instability due to division by zero or log of zero in loss computation",
+    "resolution": "Add small epsilon (e.g. 1e-8) to denominators and clamp inputs before log operations"
   },
   {
     "incident_id": 2,
-    "symptom": "Training crashes",
-    "root_cause": "Invalid tensor shapes",
-    "resolution": "Validate input dimensions"
+    "symptom": "RuntimeError during forward pass: matrix multiplication size mismatch",
+    "root_cause": "Mismatch between model input layer size and feature vector dimensions",
+    "resolution": "Print tensor shapes and ensure preprocessing outputs match model input dimensions"
   },
   {
     "incident_id": 3,
-    "symptom": "Incorrect predictions",
-    "root_cause": "Bug in preprocessing code",
-    "resolution": "Fix preprocessing logic"
+    "symptom": "Model accuracy drops significantly after deployment compared to validation performance",
+    "root_cause": "Training-serving skew due to differences in preprocessing or missing features in production",
+    "resolution": "Compare feature distributions between training and production and ensure identical pipelines"
   },
   {
     "incident_id": 4,
-    "symptom": "Model not converging",
-    "root_cause": "Wrong loss function",
-    "resolution": "Use appropriate loss"
+    "symptom": "Training loss plateaus early and does not decrease across epochs",
+    "root_cause": "Learning rate too high or incorrect loss function for the task",
+    "resolution": "Tune learning rate and verify appropriate loss function for problem type"
   },
   {
     "incident_id": 5,
-    "symptom": "Gradients always zero",
-    "root_cause": "Detached computation graph",
-    "resolution": "Fix gradient flow"
+    "symptom": "Model parameters do not update and gradients are always zero",
+    "root_cause": "Computation graph broken due to detach(), item(), or non-differentiable operations",
+    "resolution": "Ensure loss is connected to model parameters and remove unintended detach operations"
   },
   {
     "incident_id": 6,
-    "symptom": "Exploding gradients",
-    "root_cause": "Unstable training loop",
-    "resolution": "Apply gradient clipping"
+    "symptom": "Loss suddenly spikes to extremely large values and training becomes unstable",
+    "root_cause": "Exploding gradients due to high learning rate or deep network instability",
+    "resolution": "Apply gradient clipping and reduce learning rate"
   },
   {
     "incident_id": 7,
-    "symptom": "Slow execution",
-    "root_cause": "Inefficient loops",
-    "resolution": "Vectorize operations"
+    "symptom": "Training is significantly slower than expected and CPU usage is high",
+    "root_cause": "Use of Python loops instead of vectorized tensor operations",
+    "resolution": "Replace loops with vectorized operations and utilize GPU acceleration"
   },
   {
     "incident_id": 8,
-    "symptom": "Wrong evaluation metrics",
-    "root_cause": "Incorrect implementation",
-    "resolution": "Fix metric calculation"
+    "symptom": "Reported accuracy is high but predictions appear incorrect on inspection",
+    "root_cause": "Metrics computed incorrectly, e.g. using logits instead of class predictions",
+    "resolution": "Convert outputs properly using softmax or argmax before computing metrics"
   },
   {
     "incident_id": 9,
-    "symptom": "Code crashes on edge cases",
-    "root_cause": "Unhandled conditions",
-    "resolution": "Add edge case handling"
+    "symptom": "Model crashes when encountering rare or unseen input values",
+    "root_cause": "Edge cases not handled in preprocessing or model input validation",
+    "resolution": "Add checks for missing, null, or extreme values in input pipeline"
   },
   {
     "incident_id": 10,
-    "symptom": "Memory leak",
-    "root_cause": "Unused variables retained",
-    "resolution": "Release memory properly"
+    "symptom": "Memory usage keeps increasing during training leading to crash",
+    "root_cause": "Tensors or variables retained unnecessarily causing memory leak",
+    "resolution": "Delete unused variables and use torch.no_grad where appropriate"
   },
   {
     "incident_id": 11,
-    "symptom": "Incorrect batching",
-    "root_cause": "Bug in data loader",
-    "resolution": "Fix batching logic"
+    "symptom": "Model performance degrades when using batches but works with single samples",
+    "root_cause": "Incorrect batching logic or improper handling of batch dimensions",
+    "resolution": "Verify data loader and ensure consistent batch dimension handling"
   },
   {
     "incident_id": 12,
-    "symptom": "Wrong feature order",
-    "root_cause": "Mismatch in pipeline",
-    "resolution": "Align feature order"
+    "symptom": "Predictions appear random despite correct input values",
+    "root_cause": "Feature order mismatch between training and inference pipelines",
+    "resolution": "Ensure consistent feature ordering using a fixed schema"
   },
   {
     "incident_id": 13,
-    "symptom": "Random results",
-    "root_cause": "Seed not fixed",
-    "resolution": "Set random seeds"
+    "symptom": "Model results vary significantly between runs with same configuration",
+    "root_cause": "Random seeds not fixed and non-deterministic operations",
+    "resolution": "Set seeds for all libraries and enable deterministic backend settings"
   },
   {
     "incident_id": 14,
-    "symptom": "Code fails in production",
-    "root_cause": "Hardcoded paths",
-    "resolution": "Use config files"
+    "symptom": "Model works locally but fails in production environment",
+    "root_cause": "Hardcoded paths or environment-specific dependencies",
+    "resolution": "Use configuration files and environment-independent paths"
   },
   {
     "incident_id": 15,
-    "symptom": "Incorrect model saving",
-    "root_cause": "Wrong serialization",
-    "resolution": "Use proper save method"
+    "symptom": "Saved model cannot be loaded or produces incorrect outputs",
+    "root_cause": "Incorrect serialization or mismatch in model architecture during loading",
+    "resolution": "Use consistent save/load methods and version control model definitions"
   },
   {
     "incident_id": 16,
-    "symptom": "Mismatch in tensor devices",
-    "root_cause": "CPU-GPU mix",
-    "resolution": "Move tensors consistently"
+    "symptom": "Runtime error indicating tensors are on different devices",
+    "root_cause": "Mixing CPU and GPU tensors during computation",
+    "resolution": "Ensure all tensors and model parameters are on the same device"
   },
   {
     "incident_id": 17,
-    "symptom": "Code duplication",
-    "root_cause": "Poor modularization",
-    "resolution": "Refactor code"
+    "symptom": "Codebase becomes difficult to maintain and debug",
+    "root_cause": "Duplicate logic and lack of modular structure",
+    "resolution": "Refactor code into reusable functions and modules"
   },
   {
     "incident_id": 18,
-    "symptom": "Silent failures",
-    "root_cause": "Exception not handled",
-    "resolution": "Add logging"
+    "symptom": "Model fails silently without raising errors but produces wrong outputs",
+    "root_cause": "Exceptions are caught or ignored without proper logging",
+    "resolution": "Add structured logging and avoid suppressing critical exceptions"
   },
   {
     "incident_id": 19,
-    "symptom": "Incorrect gradients",
-    "root_cause": "Wrong backward pass",
-    "resolution": "Debug autograd"
+    "symptom": "Gradients are computed but lead to incorrect updates",
+    "root_cause": "Incorrect implementation of backward pass or custom loss",
+    "resolution": "Validate gradients using numerical checks or debugging tools"
   },
   {
     "incident_id": 20,
-    "symptom": "Inconsistent outputs",
-    "root_cause": "Non-deterministic ops",
-    "resolution": "Use deterministic settings"
+    "symptom": "Inference outputs vary slightly across runs in production",
+    "root_cause": "Use of non-deterministic operations or dropout during inference",
+    "resolution": "Disable dropout and enforce deterministic inference settings"
   },
   {
     "incident_id": 21,
-    "symptom": "API crashes",
-    "root_cause": "Unhandled exceptions",
-    "resolution": "Add error handling"
+    "symptom": "API endpoint crashes when handling certain requests",
+    "root_cause": "Unhandled exceptions in request processing logic",
+    "resolution": "Add proper error handling and validation in API layer"
   },
   {
     "incident_id": 22,
-    "symptom": "Incorrect logging",
-    "root_cause": "Misconfigured logger",
-    "resolution": "Fix logging setup"
+    "symptom": "Logs are missing or do not capture important events",
+    "root_cause": "Logger misconfiguration or incorrect log levels",
+    "resolution": "Configure logging properly and set appropriate log levels"
   },
   {
     "incident_id": 23,
-    "symptom": "Code not portable",
-    "root_cause": "Platform-specific code",
-    "resolution": "Generalize implementation"
+    "symptom": "Code runs on one system but fails on another",
+    "root_cause": "Platform-specific assumptions or dependencies",
+    "resolution": "Ensure cross-platform compatibility and avoid system-specific code"
   },
   {
     "incident_id": 24,
-    "symptom": "Incorrect hyperparameters",
-    "root_cause": "Hardcoded values",
-    "resolution": "Use config system"
+    "symptom": "Model performance is suboptimal despite correct implementation",
+    "root_cause": "Incorrect or suboptimal hyperparameter values",
+    "resolution": "Tune hyperparameters using validation set or search methods"
   },
   {
     "incident_id": 25,
-    "symptom": "Deadlocks in pipeline",
-    "root_cause": "Improper threading",
-    "resolution": "Fix concurrency logic"
+    "symptom": "Pipeline hangs or freezes during execution",
+    "root_cause": "Deadlocks caused by improper multithreading or multiprocessing",
+    "resolution": "Review concurrency logic and use safe synchronization mechanisms"
   },
   {
     "incident_id": 26,
-    "symptom": "Model not updating",
-    "root_cause": "Optimizer not applied",
-    "resolution": "Check optimizer step"
+    "symptom": "Model parameters remain unchanged after training step",
+    "root_cause": "Optimizer step not called or gradients not applied",
+    "resolution": "Ensure optimizer.step() is executed after backward pass"
   },
   {
     "incident_id": 27,
-    "symptom": "Incorrect evaluation split",
-    "root_cause": "Bug in splitting logic",
-    "resolution": "Fix dataset split"
+    "symptom": "Validation performance is unrealistically high but test performance is poor",
+    "root_cause": "Data leakage due to incorrect dataset splitting",
+    "resolution": "Ensure proper separation between train, validation, and test sets"
   },
   {
     "incident_id": 28,
-    "symptom": "Code runs but wrong results",
-    "root_cause": "Logical bug",
-    "resolution": "Add unit tests"
+    "symptom": "Code executes without errors but produces incorrect results",
+    "root_cause": "Logical bug in implementation",
+    "resolution": "Add unit tests and validate intermediate outputs"
   },
   {
     "incident_id": 29,
-    "symptom": "Version conflicts",
-    "root_cause": "Dependency mismatch",
-    "resolution": "Pin versions"
+    "symptom": "Code breaks after installing or updating dependencies",
+    "root_cause": "Version conflicts between libraries",
+    "resolution": "Pin dependency versions and use virtual environments"
   },
   {
     "incident_id": 30,
-    "symptom": "Function outputs incorrect shape",
-    "root_cause": "Bug in transformation",
-    "resolution": "Fix shape handling"
+    "symptom": "Function outputs tensors with unexpected shape",
+    "root_cause": "Incorrect reshaping or transformation logic",
+    "resolution": "Track tensor shapes through pipeline and fix transformations"
   }
 ]

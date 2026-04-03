@@ -1,182 +1,182 @@
 [
   {
     "incident_id": 1,
-    "symptom": "GPU out of memory error",
-    "root_cause": "Batch size too large",
-    "resolution": "Reduce batch size"
+    "symptom": "CUDA out of memory error occurs during training when batch size > 32",
+    "root_cause": "GPU memory exceeded due to large batch size and model size",
+    "resolution": "Reduce batch size, use gradient accumulation, or enable mixed precision (fp16)"
   },
   {
     "incident_id": 2,
-    "symptom": "CPU usage spikes",
-    "root_cause": "Inefficient parallelism",
-    "resolution": "Optimize threading"
+    "symptom": "CPU usage spikes to 100% while GPU remains mostly idle during training",
+    "root_cause": "Data loading bottleneck due to insufficient parallel workers",
+    "resolution": "Increase num_workers in DataLoader and enable prefetching/pinned memory"
   },
   {
     "incident_id": 3,
-    "symptom": "Training extremely slow",
-    "root_cause": "No GPU utilization",
-    "resolution": "Enable GPU acceleration"
+    "symptom": "Training takes significantly longer than expected and GPU utilization is near 0%",
+    "root_cause": "Model or tensors not moved to GPU",
+    "resolution": "Ensure model and inputs are moved to CUDA device using .to(device)"
   },
   {
     "incident_id": 4,
-    "symptom": "High latency inference",
-    "root_cause": "Heavy model",
-    "resolution": "Use model quantization"
+    "symptom": "Inference latency exceeds SLA requirements under normal load",
+    "root_cause": "Model too large or not optimized for inference",
+    "resolution": "Apply quantization, use smaller model, or enable batching for inference"
   },
   {
     "incident_id": 5,
-    "symptom": "Frequent OOM crashes",
-    "root_cause": "Memory leak",
-    "resolution": "Fix memory allocation"
+    "symptom": "Frequent out-of-memory crashes even with small batch sizes",
+    "root_cause": "Memory leak due to retaining computation graphs or tensors",
+    "resolution": "Use torch.no_grad during inference and delete unused tensors explicitly"
   },
   {
     "incident_id": 6,
-    "symptom": "Low GPU utilization",
-    "root_cause": "Data bottleneck",
-    "resolution": "Optimize data pipeline"
+    "symptom": "GPU utilization remains below 30% during training",
+    "root_cause": "Slow data pipeline causing GPU starvation",
+    "resolution": "Optimize data loading, use caching, and increase DataLoader workers"
   },
   {
     "incident_id": 7,
-    "symptom": "Disk I/O bottleneck",
-    "root_cause": "Frequent reads",
-    "resolution": "Cache data"
+    "symptom": "Training slows down significantly when reading large datasets",
+    "root_cause": "Frequent disk reads without caching or batching",
+    "resolution": "Cache dataset in memory or use efficient data formats like Parquet"
   },
   {
     "incident_id": 8,
-    "symptom": "Training job killed",
-    "root_cause": "Exceeded resource quota",
-    "resolution": "Request higher quota"
+    "symptom": "Training job gets killed without error logs in cluster environment",
+    "root_cause": "Exceeded memory or compute quota limits",
+    "resolution": "Check resource quotas and request higher limits or reduce resource usage"
   },
   {
     "incident_id": 9,
-    "symptom": "Slow model loading",
-    "root_cause": "Large model size",
-    "resolution": "Compress model"
+    "symptom": "Model loading takes several minutes during service startup",
+    "root_cause": "Large model size and slow disk I/O",
+    "resolution": "Use model compression, lazy loading, or load model into memory once"
   },
   {
     "incident_id": 10,
-    "symptom": "Network latency spikes",
-    "root_cause": "High traffic",
-    "resolution": "Use load balancing"
+    "symptom": "Inference API experiences sudden latency spikes under load",
+    "root_cause": "Network congestion or insufficient request handling capacity",
+    "resolution": "Use load balancing and autoscaling to distribute traffic"
   },
   {
     "incident_id": 11,
-    "symptom": "Autoscaling not triggering",
-    "root_cause": "Wrong thresholds",
-    "resolution": "Adjust scaling policies"
+    "symptom": "Autoscaling does not trigger even when CPU usage is high",
+    "root_cause": "Incorrect scaling thresholds or misconfigured metrics",
+    "resolution": "Verify autoscaling policies and adjust trigger thresholds"
   },
   {
     "incident_id": 12,
-    "symptom": "Frequent container restarts",
-    "root_cause": "Resource exhaustion",
-    "resolution": "Increase limits"
+    "symptom": "Containers restart frequently with OOMKilled status",
+    "root_cause": "Memory limits too low for workload requirements",
+    "resolution": "Increase memory limits and optimize memory usage"
   },
   {
     "incident_id": 13,
-    "symptom": "Long queue times",
-    "root_cause": "Insufficient workers",
-    "resolution": "Scale workers"
+    "symptom": "Requests queue up and response times increase significantly",
+    "root_cause": "Insufficient worker processes handling requests",
+    "resolution": "Increase number of workers or scale horizontally"
   },
   {
     "incident_id": 14,
-    "symptom": "High memory fragmentation",
-    "root_cause": "Inefficient allocation",
-    "resolution": "Optimize memory usage"
+    "symptom": "Memory usage increases over time leading to fragmentation",
+    "root_cause": "Frequent allocation and deallocation of tensors",
+    "resolution": "Reuse memory buffers and optimize allocation patterns"
   },
   {
     "incident_id": 15,
-    "symptom": "GPU overheating",
-    "root_cause": "High workload",
-    "resolution": "Improve cooling"
+    "symptom": "GPU temperature rises above safe limits during prolonged training",
+    "root_cause": "Sustained high utilization without adequate cooling",
+    "resolution": "Improve cooling, reduce workload, or monitor thermal throttling"
   },
   {
     "incident_id": 16,
-    "symptom": "Slow checkpoint saving",
-    "root_cause": "Disk bottleneck",
-    "resolution": "Use faster storage"
+    "symptom": "Checkpoint saving takes excessive time and slows training loop",
+    "root_cause": "Slow disk write speed or large checkpoint size",
+    "resolution": "Use faster storage (SSD) and save checkpoints less frequently"
   },
   {
     "incident_id": 17,
-    "symptom": "Cluster instability",
-    "root_cause": "Node failures",
-    "resolution": "Replace faulty nodes"
+    "symptom": "Distributed training job fails intermittently across nodes",
+    "root_cause": "Node failures or unstable cluster environment",
+    "resolution": "Check node health and ensure cluster stability"
   },
   {
     "incident_id": 18,
-    "symptom": "High latency in distributed training",
-    "root_cause": "Communication overhead",
-    "resolution": "Optimize communication"
+    "symptom": "Training speed decreases as number of nodes increases",
+    "root_cause": "Communication overhead dominates computation",
+    "resolution": "Optimize communication backend and reduce synchronization frequency"
   },
   {
     "incident_id": 19,
-    "symptom": "Underutilized cluster",
-    "root_cause": "Poor scheduling",
-    "resolution": "Improve job scheduler"
+    "symptom": "Cluster resources remain idle despite queued jobs",
+    "root_cause": "Inefficient job scheduling or resource fragmentation",
+    "resolution": "Tune scheduler configuration and improve resource allocation strategy"
   },
   {
     "incident_id": 20,
-    "symptom": "Frequent timeouts",
-    "root_cause": "Slow compute",
-    "resolution": "Optimize compute tasks"
+    "symptom": "Frequent request timeouts in API under moderate load",
+    "root_cause": "Slow model inference or blocking operations",
+    "resolution": "Optimize inference pipeline and use asynchronous request handling"
   },
   {
     "incident_id": 21,
-    "symptom": "Slow data transfer",
-    "root_cause": "Network bottleneck",
-    "resolution": "Upgrade bandwidth"
+    "symptom": "Data transfer between nodes is significantly slower than expected",
+    "root_cause": "Network bandwidth limitations or misconfigured networking",
+    "resolution": "Upgrade network infrastructure or optimize data transfer patterns"
   },
   {
     "incident_id": 22,
-    "symptom": "High CPU wait time",
-    "root_cause": "I/O blocking",
-    "resolution": "Use async operations"
+    "symptom": "High CPU wait time observed in monitoring tools",
+    "root_cause": "Processes blocked waiting for I/O operations",
+    "resolution": "Use asynchronous I/O or batch disk operations"
   },
   {
     "incident_id": 23,
-    "symptom": "Resource contention",
-    "root_cause": "Multiple jobs",
-    "resolution": "Isolate workloads"
+    "symptom": "Multiple jobs interfere with each other causing slowdowns",
+    "root_cause": "Resource contention between workloads",
+    "resolution": "Isolate workloads using containers or dedicated resources"
   },
   {
     "incident_id": 24,
-    "symptom": "Low throughput",
-    "root_cause": "Single-threaded execution",
-    "resolution": "Parallelize tasks"
+    "symptom": "Throughput remains low despite sufficient hardware resources",
+    "root_cause": "Single-threaded execution limiting performance",
+    "resolution": "Parallelize computation using multi-threading or distributed processing"
   },
   {
     "incident_id": 25,
-    "symptom": "Slow startup time",
-    "root_cause": "Heavy initialization",
-    "resolution": "Lazy load components"
+    "symptom": "Service startup time is very slow after deployment",
+    "root_cause": "Heavy initialization and loading of large dependencies",
+    "resolution": "Use lazy loading and pre-initialize critical components"
   },
   {
     "incident_id": 26,
-    "symptom": "Cache misses high",
-    "root_cause": "Poor caching strategy",
-    "resolution": "Optimize cache"
+    "symptom": "Cache hit rate is low leading to repeated expensive computations",
+    "root_cause": "Inefficient caching strategy or poor key design",
+    "resolution": "Optimize cache keys and caching policy"
   },
   {
     "incident_id": 27,
-    "symptom": "High GPU idle time",
-    "root_cause": "Pipeline inefficiency",
-    "resolution": "Improve scheduling"
+    "symptom": "GPU remains idle between training steps",
+    "root_cause": "Inefficient pipeline scheduling or synchronization delays",
+    "resolution": "Overlap computation and data loading using asynchronous pipelines"
   },
   {
     "incident_id": 28,
-    "symptom": "Frequent disk full errors",
-    "root_cause": "Logs accumulation",
-    "resolution": "Clean logs regularly"
+    "symptom": "Application crashes due to disk full errors",
+    "root_cause": "Logs or temporary files accumulating without cleanup",
+    "resolution": "Implement log rotation and periodic cleanup jobs"
   },
   {
     "incident_id": 29,
-    "symptom": "Slow container builds",
-    "root_cause": "Large dependencies",
-    "resolution": "Optimize Dockerfile"
+    "symptom": "Container build times are excessively long",
+    "root_cause": "Large dependencies and inefficient Dockerfile layering",
+    "resolution": "Use multi-stage builds and minimize dependencies"
   },
   {
     "incident_id": 30,
-    "symptom": "Job failures in distributed setup",
-    "root_cause": "Node communication issues",
-    "resolution": "Debug network layer"
+    "symptom": "Distributed training jobs fail due to communication errors",
+    "root_cause": "Misconfigured network settings or firewall restrictions",
+    "resolution": "Verify network configuration and ensure proper node communication"
   }
 ]
