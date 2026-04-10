@@ -39,3 +39,17 @@ def build_rag_chain(vector_store, llm): #query, live_metrics,
         | StrOutputParser()
     )
     return rag_chain
+
+
+# init LANGGRAPH RAG-AGENT
+def get_debugging_agent(llm, tools_pack):
+    
+    ## we add the vector-scoresDB + other SHAP/Perf-metrics-loggers in Tool-Pack
+    tools = tools_pack.copy()
+    
+    system_prompt = SystemMessage(content="""You are an elite AI ML Site Reliability Engineer. 
+    You debug machine learning training runs. You have tools to read logs, run SHAP analysis, and search docs/databases.
+    Always format your initial report with clear Markdown (Diagnosis, Evidence, Fixes).""")
+    
+    # create_react_agent automatically handles the "Loop until tools are done" logic
+    return create_react_agent(llm, tools, state_modifier=system_prompt)
