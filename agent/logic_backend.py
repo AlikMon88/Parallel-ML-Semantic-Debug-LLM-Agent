@@ -1,10 +1,35 @@
 
 import json
 import os
+from data.load import *
+from rag.embed import *
 from langchain_core.tools import tool
 from langchain_openai import ChatOpenAI
 from langgraph.prebuilt import create_react_agent
 from langchain_core.messages import SystemMessage
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+
+def route_query(query: str, llm) -> str:
+    ## Categorizes the user's query
+    
+    system_prompt = """You are an intelligent routing agent for an ML system.
+    Categorize the user's issue into exactly ONE of these categories:
+    - [COMPUTE] (e.g., OOM, CUDA errors, hardware)
+    - [DATA] (e.g., NaN loss, data drift, distribution shift)
+    -[CODE] (e.g., syntax errors, tensor shape mismatches)
+    
+    Respond with ONLY the category tag (e.g., [DATA])."""
+    
+    prompt = ChatPromptTemplate.from_messages([
+        ("system", system_prompt),
+        ("human", "{query}")
+    ])
+    
+    ## LCEL Chain: Prompt -> LLM -> String Output
+    chain = prompt | llm | StrOutputParser()
+    return chain.invoke({"query": query}).strip()
+
 
 ### Tooling (JSON-model-Schema) / MCP-like
 @tool
@@ -37,9 +62,25 @@ def search_framework_docs(query: str):
 def search_db_files(query): ##for categorical-routing
     """ Searches Local Database Files/JSONs/Data for causes and fixes to ML issues."""
 
-    category = route_query(user_query, llm)
-    st.write(f"2. Routing to the **{category}** vector database...")
-    selected_vs = vector_stores[category]
+    cate_dict = {
+    '[DATA]': 'data/incident_spaces/data_incidents.json',
+    '[COMPUTE]': 'data/incident_spaces/compute_incidents.json',
+    '[CODE]': 'data/incident_spaces/code_incidents.json'
+    }
+    
+    vector_embed_cache = {}
+    
+    documents = load_documents(cate_dict['[DATA]'])
+            
+    for key in cate_dict.keys():
+        documents = load_documents(cate_dict[key])
+        vector_embed_cache[key] = create_vector_store(documents) ## BERT-based embedding-vector (encoder-architechture)
+        print('vector-embed-shape: ', vector_embed_cache[key].index.ntotal, vector_embed_cache[key].index.d)
+
+    category = route_query(query, llm)
+    selected_vs = vector_embed_cache[category]
     retriever = selected_vs.as_retriever(search_kwargs={"k": 2})
-    return retriever ## return retrieved vectors
+    ret_docs = retriever.invoke(query) ## LangChain-doc-datatype
+    
+    return "\n\n".join(doc.page_content for doc in ret_docs)
     

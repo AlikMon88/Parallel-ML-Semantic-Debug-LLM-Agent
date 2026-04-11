@@ -1,6 +1,8 @@
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
+from langchain_core.messages import SystemMessage
+from langgraph.prebuilt import create_react_agent
 
 def build_rag_chain(vector_store, llm): #query, live_metrics, 
     # Retrieve top 2 most similar past incidents
@@ -44,12 +46,10 @@ def build_rag_chain(vector_store, llm): #query, live_metrics,
 # init LANGGRAPH RAG-AGENT
 def get_debugging_agent(llm, tools_pack):
     
-    ## we add the vector-scoresDB + other SHAP/Perf-metrics-loggers in Tool-Pack
-    tools = tools_pack.copy()
-    
     system_prompt = SystemMessage(content="""You are an elite AI ML Site Reliability Engineer. 
     You debug machine learning training runs. You have tools to read logs, run SHAP analysis, and search docs/databases.
     Always format your initial report with clear Markdown (Diagnosis, Evidence, Fixes).""")
     
+    ## we add the vector-scoresDB + other SHAP/Perf-metrics-loggers in Tool-Pack
     # create_react_agent automatically handles the "Loop until tools are done" logic
-    return create_react_agent(llm, tools, state_modifier=system_prompt)
+    return create_react_agent(llm, tools_pack, state_modifier=system_prompt)

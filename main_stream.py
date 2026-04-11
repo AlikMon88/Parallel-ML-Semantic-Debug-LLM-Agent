@@ -49,31 +49,13 @@ def load_llm(model_name='other'):
     return llm
 
 if __name__ == '__main__':
-    
-    cate_dict = {
-        '[DATA]': 'data/incident_spaces/data_incidents.json',
-        '[COMPUTE]': 'data/incident_spaces/compute_incidents.json',
-        '[CODE]': 'data/incident_spaces/code_incidents.json'
-    }
-    vector_embed_cache = {}
-    
-    documents = load_documents(cate_dict['[DATA]'])
-    
-    ## Reference for RAG
-    print(' --- DATA-RAG-DOC --- ')
-    pprint(documents)
-    
-    for key in cate_dict.keys():
-        documents = load_documents(cate_dict[key])
-        vector_embed_cache[key] = create_vector_store(documents) ## BERT-based embedding-vector (encoder-architechture)
-        print('vector-embed-shape: ', vector_embed_cache[key].index.ntotal, vector_embed_cache[key].index.d)
-        
+            
     
     ## Decoder LLM (TinyLLAMA/GPT-4o-mini)
     llm = load_llm(model_name='openai')   
     
-    
     ### Streamlit / FrontEnd
-    stream_frontend(load_vector_embed=vector_embed_cache, load_llm=llm)
+    stream_frontend_parallel(load_llm=llm)
+    # stream_frontend(load_vector_embed=vector_embed_cache, load_llm=llm)
     
     
