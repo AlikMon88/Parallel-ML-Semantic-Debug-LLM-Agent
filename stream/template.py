@@ -83,19 +83,19 @@ def stream_frontend_parallel(load_llm):
         """
         
         with st.status("Parallel: AI Agent analyzing the recent training run ... ", expanded=True) as status:
-            ### Expand and discretize the tooling pipelining
+            ### Expand and discretize the tooling pipelining || show them in st.success green
             response = st.session_state.agent.invoke({"messages": [HumanMessage(content=intitial_instruction)]})
             final_report = response["messages"][-1].content
             st.session_state.chat_history.append(AIMessage(content=final_report))
             status.update(label="Diagnosis Complete!", state="complete", expanded=False)
-
-        
+                
     for msg in st.session_state.chat_history:
         role = "user" if isinstance(msg, HumanMessage) else "assistant"
         with st.chat_message(role):
             st.markdown(msg.content)
+    
+    if 'agent_call' in st.session_state:    
 
-    if 'agent_call' in st.session_state:
         # HUMAN-IN-THE-LOOP CHAT
         if user_input := st.chat_input("Ask follow-up debugging questions..."):
             st.chat_message("user").markdown(user_input)
