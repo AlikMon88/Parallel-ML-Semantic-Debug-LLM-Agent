@@ -1,7 +1,7 @@
 
 ---
 
-# ML System Debugging Assistant (RAG + LLM)
+# Parallel: ML Semantic Debugging Assistant (RAG + LLM)
 
 ## Overview
 
