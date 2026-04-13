@@ -63,7 +63,8 @@ def train_imbalanced_mnist():
 
     logs = {"run_info": "MNIST Categorical Classification", "epochs":[]}
     epochs_len = 10
-    for epoch in range(1, epochs_len + 1):  # 10 Epochs for fast execution
+    
+    for epoch in range(1, epochs_len + 1):  
         model.train()
         train_loss = 0.0
         total_norm = 0.0
