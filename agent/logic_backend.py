@@ -246,7 +246,7 @@ def model_arch_info():
 
 
 @tool
-def evaluate_model_per_class(model_path: str = "model/model_saves/model.pth"):
+def evaluate_model_per_class(model_path: str = "model/models_save/model.pth"):
     """Loads the saved PyTorch model, runs inference on the balanced MNIST test set, and generates a per-class precision/recall report."""
     
     model = SimpleNN()
