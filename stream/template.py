@@ -93,7 +93,7 @@ def render_agent_stream(agent, messages):
 
                 # tool_name = msg.tool_calls[0]["name"]
                 for tool in msg.tool_calls: 
-                    st.markdown(f""" Called : `{tool.name}`""")
+                    st.markdown(f""" Called : `{tool['name']}`""")
                 
             # TOOL OUTPUT
             elif msg.type == "tool":
