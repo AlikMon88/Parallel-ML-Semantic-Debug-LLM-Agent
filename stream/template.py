@@ -59,6 +59,89 @@ def stream_frontend(load_vector_embed, load_llm):
             
             
 ### Parallel-Stream-FrontEnd
+
+def render_agent_stream(agent, messages):
+    """
+    Stream LangGraph agent execution
+    with clean structured UI.
+    """
+
+    final_report = None
+
+    reasoning_blocks = []
+
+    with st.status(
+        "Running <Parallel> ...",
+        expanded=True
+    ) as status:
+
+        for event in agent.stream({"messages": messages}):
+
+            if "messages" not in event:
+                continue
+
+            msg = event["messages"][-1]
+
+            # TOOL CALL
+            if hasattr(msg, "tool_calls") and msg.tool_calls:
+
+                tool_name = msg.tool_calls[0]["name"]
+
+                st.markdown(f"""
+                ### Running Tool  
+                `{tool_name}`
+                """)
+            # TOOL OUTPUT
+            elif msg.type == "tool":
+
+                st.success("✓ Tool Completed")
+
+                with st.expander("Tool Output", expanded=False):
+
+                    st.code(
+                        msg.content[:2000],
+                        language="text"
+                    )
+
+            # LLM REASONING
+            elif msg.type == "ai":
+
+                reasoning_blocks.append(msg.content)
+
+                final_report = msg.content
+
+        status.update(
+            label="Debugging Complete",
+            state="complete",
+            expanded=False
+        )
+
+    # Show reasoning cleanly
+    if reasoning_blocks:
+
+        with st.expander(
+            "View LLM Reasoning",
+            expanded=False
+        ):
+
+            for r in reasoning_blocks:
+
+                st.markdown(f"""
+                <div style="
+                padding:12px;
+                border-radius:8px;
+                background-color:#0E1117;
+                border:1px solid #333;
+                margin-bottom:10px;
+                ">
+
+                {r}
+
+                </div>
+                """, unsafe_allow_html=True)
+
+    return final_report
+
 def stream_frontend_parallel(load_llm):
     st.set_page_config(page_title="Parallel | ML-SYS-DBG", page_icon="⚙️")
 
@@ -80,9 +163,14 @@ def stream_frontend_parallel(load_llm):
         intitial_instruction = pmp.get_human_instruction_e4()
         
         with st.status("Parallel: AI Agent analyzing the recent training run ... ", expanded=True) as status:
+            
             ### Expand and discretize the tooling pipelining || show them in st.success green
-            response = st.session_state.agent.invoke({"messages": [HumanMessage(content=intitial_instruction)]})
-            final_report = response["messages"][-1].content
+            # response = st.session_state.agent.invoke({"messages": [HumanMessage(content=intitial_instruction)]})
+            # final_report = response["messages"][-1].content
+            
+            ## UI-improve
+            final_report = render_agent_stream(st.session_state.agent, [HumanMessage(content=intitial_instruction)])
+            
             st.session_state.chat_history.append(AIMessage(content=final_report))
             status.update(label="Diagnosis Complete!", state="complete", expanded=False)
                 
