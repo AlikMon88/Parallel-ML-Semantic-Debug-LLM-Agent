@@ -5,6 +5,7 @@ from rag.retrieve import *
 from agent.logic import *
 from agent.logic_backend import *
 from langchain_core.messages import HumanMessage, AIMessage
+import sys
 
 from . import prompts as pmp    
 
@@ -73,7 +74,7 @@ def render_agent_stream(agent, messages):
     with st.status(
         "Running <Parallel> ...",
         expanded=True
-    ) as status:
+        ) as status:
 
         for event in agent.stream({"messages": messages}):
 
@@ -81,34 +82,37 @@ def render_agent_stream(agent, messages):
                 continue
 
             msg = event["messages"][-1]
+            
+            if msg.content:
+                
+                # TOOL CALL
+                if hasattr(msg, "tool_calls") and msg.tool_calls:
 
-            # TOOL CALL
-            if hasattr(msg, "tool_calls") and msg.tool_calls:
+                    tool_name = msg.tool_calls[0]["name"]
 
-                tool_name = msg.tool_calls[0]["name"]
+                    st.markdown(f"""
+                    ### Running Tool  
+                    `{tool_name}`
+                    """)
+                    
+                # TOOL OUTPUT
+                elif msg.type == "tool":
 
-                st.markdown(f"""
-                ### Running Tool  
-                `{tool_name}`
-                """)
-            # TOOL OUTPUT
-            elif msg.type == "tool":
+                    st.success("Tool Completed")
 
-                st.success("✓ Tool Completed")
+                    with st.expander("Tool Output", expanded=False):
 
-                with st.expander("Tool Output", expanded=False):
+                        st.code(
+                            msg.content[:2000],
+                            language="text"
+                        )
 
-                    st.code(
-                        msg.content[:2000],
-                        language="text"
-                    )
+                # LLM REASONING
+                elif msg.type == "ai":
 
-            # LLM REASONING
-            elif msg.type == "ai":
+                    reasoning_blocks.append(msg.content)
 
-                reasoning_blocks.append(msg.content)
-
-                final_report = msg.content
+                    final_report = msg.content
 
         status.update(
             label="Debugging Complete",
@@ -170,6 +174,10 @@ def stream_frontend_parallel(load_llm):
             
             ## UI-improve
             final_report = render_agent_stream(st.session_state.agent, [HumanMessage(content=intitial_instruction)])
+            
+            if final_report is None:
+                print('No Final-Report Generated.')
+                sys.exit()
             
             st.session_state.chat_history.append(AIMessage(content=final_report))
             status.update(label="Diagnosis Complete!", state="complete", expanded=False)
