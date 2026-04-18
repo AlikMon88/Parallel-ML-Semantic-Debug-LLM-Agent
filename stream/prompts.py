@@ -542,7 +542,7 @@ def get_human_instruction_e4():
 
     For each tool:
 
-    ### Tool: <tool_name>
+    ### Tool: 'tool_name' in code markdown format
 
     **Purpose**
     Why this tool was used.

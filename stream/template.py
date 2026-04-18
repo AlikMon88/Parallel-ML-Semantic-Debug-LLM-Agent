@@ -66,59 +66,64 @@ def render_agent_stream(agent, messages):
     Stream LangGraph agent execution
     with clean structured UI.
     """
+    
+    print('access-render-stream')
 
     final_report = None
 
     reasoning_blocks = []
 
-    with st.status(
-        "Running <Parallel> ...",
-        expanded=True
-        ) as status:
+    with st.status("Running <Parallel> ...", expanded=True) as status:
 
         for event in agent.stream({"messages": messages}):
-
+            current_point = list(event.keys())[-1]
+            print('current_point: ', current_point)
+            
+            event = event[current_point]
+            
             if "messages" not in event:
                 continue
 
-            msg = event["messages"][-1]
+            msg = event["messages"][-1] 
             
-            if msg.content:
+            print(msg)
+            
+            # TOOL CALL
+            if hasattr(msg, "tool_calls") and msg.tool_calls:
+
+                # tool_name = msg.tool_calls[0]["name"]
+                for tool in msg.tool_calls: 
+                    st.markdown(f""" Called : `{tool.name}`""")
                 
-                # TOOL CALL
-                if hasattr(msg, "tool_calls") and msg.tool_calls:
-
-                    tool_name = msg.tool_calls[0]["name"]
-
-                    st.markdown(f"""
-                    ### Running Tool  
-                    `{tool_name}`
+            # TOOL OUTPUT
+            elif msg.type == "tool":
+                st.markdown(f"""
+                    ##### Tool: `{msg.name}`
                     """)
+
+                with st.expander("Tool Output", expanded=False):
+
+                    st.code(
+                        msg.content[:2000],
+                        language="text"
+                    )
                     
-                # TOOL OUTPUT
-                elif msg.type == "tool":
+                st.success("Tool Completed")
 
-                    st.success("Tool Completed")
+            # LLM REASONING
+            elif msg.type == "ai":
 
-                    with st.expander("Tool Output", expanded=False):
+                reasoning_blocks.append(msg.content)
 
-                        st.code(
-                            msg.content[:2000],
-                            language="text"
-                        )
-
-                # LLM REASONING
-                elif msg.type == "ai":
-
-                    reasoning_blocks.append(msg.content)
-
-                    final_report = msg.content
+                final_report = msg.content
 
         status.update(
             label="Debugging Complete",
             state="complete",
             expanded=False
         )
+        
+    print('RB-len: ', len(reasoning_blocks))
 
     # Show reasoning cleanly
     if reasoning_blocks:
@@ -129,7 +134,11 @@ def render_agent_stream(agent, messages):
         ):
 
             for r in reasoning_blocks:
-
+            
+                if len(reasoning_blocks) < 2:
+                    st.markdown("No Explicit Reasoning.")
+                    break
+                
                 st.markdown(f"""
                 <div style="
                 padding:12px;
@@ -200,4 +209,9 @@ def stream_frontend_parallel(load_llm):
                 st.chat_message("assistant").markdown(agent_reply.content)
                 st.session_state.chat_history.append(agent_reply)
 
+
+
+if __name__ == '__main__':
+    llm = load_llm(model_name='openai')
+    
     
