@@ -422,7 +422,7 @@ pip install -r requirements.txt
 ### 3. Run Parallel
 
 ```
-py runner.py
+py runner.py --train_file_path=... --stream_file_path=...
 ```
 
 ---
