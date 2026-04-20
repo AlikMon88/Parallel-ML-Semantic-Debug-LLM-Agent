@@ -166,7 +166,7 @@ def stream_frontend_parallel(load_llm):
 
     if 'agent' not in st.session_state:
         ## RAG-agent-call / creates OOS states
-        tools_pack = [read_training_logs, main_run_shap_analysis, search_db_files, main_search_framework_docs, evaluate_model_per_class, model_arch_info]
+        tools_pack = [read_training_logs, main_run_shap_analysis, search_db_files, main_search_framework_docs, evaluate_model_per_class, model_arch_info, data_distribution_understand]
         st.session_state.agent = get_debugging_agent(llm, tools_pack=tools_pack)
         st.session_state.chat_history = []
     

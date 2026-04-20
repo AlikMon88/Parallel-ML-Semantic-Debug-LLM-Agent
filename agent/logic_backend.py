@@ -9,6 +9,9 @@ import shap
 from sklearn.metrics import classification_report
 from pprint import pprint
 import inspect
+from collections import Counter
+import pickle as pkl
+import matplotlib.pyplot as plt
 
 import torch
 import torch.nn as nn
@@ -270,6 +273,48 @@ def evaluate_model_per_class(model_path: str = "model/models_save/model.pth"):
     report = classification_report(all_targets, all_preds, zero_division=0)
     return f"Model Evaluation Report (Scikit-Learn):\n{report}"
 
+@tool
+## retrieve train/test-data distribution information every tooling call
+def data_distribution_understand(plot=True):
+    """
+    Loads training and test distributions and optionally plots them.
+    Useful for detecting class imbalance or distribution drift.
+    """
+
+    print("retrieving train/test-distrib information")
+
+    with open('./data/train_dist.pkl', 'rb') as f:
+        train_dist = pkl.load(f)
+
+    with open('./data/test_dist.pkl', 'rb') as f:
+        test_dist = pkl.load(f)
+
+    if plot:
+
+        train_keys = list(train_dist.keys())
+        train_values = list(train_dist.values())
+
+        test_keys = list(test_dist.keys())
+        test_values = list(test_dist.values())
+
+        plt.figure()
+
+        plt.bar(train_keys, train_values)
+        plt.title("Training Data Distribution")
+
+        plt.figure()
+
+        plt.bar(test_keys, test_values)
+        plt.title("Test Data Distribution")
+
+        plt.show()
+
+    ret_str = (
+        f"Train-Distribution: {train_dist}\n\n"
+        f"Test-Distribution: {test_dist}"
+    )
+
+    return ret_str
 if __name__ == "__main__":
     print('Running__Main__Tooling__')
     # def main_run_shap_analysis_nontool(model_path: str = "model/models_save/model.pth"):

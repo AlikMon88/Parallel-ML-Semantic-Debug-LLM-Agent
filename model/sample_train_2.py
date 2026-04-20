@@ -11,7 +11,8 @@ import subprocess
 import random
 from pprint import pprint
 from model_arch.simple_nn import SimpleNN
-
+from collections import Counter
+import pickle as pkl
 
 def train_imbalanced_mnist():
     print('Training-Pipeline-(TP)-2...')
@@ -24,7 +25,7 @@ def train_imbalanced_mnist():
 
     print(len(full_train_dataset), len(test_dataset))
     
-    # ARTIFICIAL SABOTAGE: Imbalance the dataset
+    # ARTIFICIAL Imbalance the dataset
     # Keep 100% of '0's, but only 2% of digits '1' through '9'
     skewed_indices =[]
     for idx, (_, label) in enumerate(full_train_dataset):
@@ -38,8 +39,6 @@ def train_imbalanced_mnist():
     train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
     test_loader = DataLoader(test_dataset, batch_size=1000, shuffle=False)
     
-    from collections import Counter
-
     train_label_counter = Counter()
     test_label_counter = Counter()
 
@@ -51,18 +50,24 @@ def train_imbalanced_mnist():
         _, labels = batch   # typical format
         test_label_counter.update(labels.tolist())
 
-    print('Train-Label-Distribution: ')
+    print('Saved / Train-Label-Distribution: ')
     pprint(train_label_counter)
+    with open('./data/train_dist.pkl', 'wb') as f:
+        pkl.dump(train_label_counter, f)
+    f.close()
     
-    print('Test-Label-Distribution: ')
+    print('Saved / Test-Label-Distribution: ')
     pprint(test_label_counter)
-
+    with open('./data/test_dist.pkl', 'wb') as f:
+        pkl.dump(test_label_counter, f)
+    f.close()
+    
     model = SimpleNN()
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=0.001)
 
     logs = {"run_info": "MNIST Categorical Classification", "epochs":[]}
-    epochs_len = 10
+    epochs_len = 30
     
     for epoch in range(1, epochs_len + 1):  
         model.train()
@@ -108,7 +113,7 @@ def train_imbalanced_mnist():
             "val_accuracy": round(val_acc, 4),
             "avg_grad_norm" : round(avg_grad_norm, 4)
         })
-        print(f"Epoch {epoch}/{epochs_len + 1} - Train Loss: {train_loss:.4f} | Val Loss: {val_loss:.4f} | Val Acc: {val_acc:.4f}")
+        print(f"Epoch {epoch + 1}/{epochs_len + 1} - Train Loss: {train_loss:.4f} | Val Loss: {val_loss:.4f} | Val Acc: {val_acc:.4f}")
 
     with open("model/logs/training_logs.json", "w") as f:
         json.dump(logs, f, indent=4)

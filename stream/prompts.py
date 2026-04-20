@@ -426,35 +426,44 @@ def get_human_instruction_e4():
     Required Tool Sequence:
 
     1. ALWAYS call:
-
+     
     read_training_logs
 
     This step is mandatory.
 
     2. If performance differences across classes
     are suspected:
-
-    Call:
-    model_arch_info
     
-    3. To get model architecture for model function contexualization
+    Call:
     
     evaluate_model_per_class
 
-    4. If model reasoning or feature behavior
+    3. To get data distribution understanding
+    
+    Call:
+    
+    data_distribution_understand
+    
+    4. To get model architecture for model function contexualization
+    
+    Call:
+    
+    model_arch_info
+    
+    5. If model reasoning or feature behavior
     is unclear:
 
     Call:
 
     main_run_shap_analysis
 
-    5. If debugging guidance is required:
+    6. For debugging guidance through internal db files:
 
     Call:
 
     search_db_files
 
-    6. If framework behavior is unclear:
+    7. For debugging guidance through framework docs:
 
     Call:
 

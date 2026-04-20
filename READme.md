@@ -1,95 +1,272 @@
-
----
-
-# Parallel: ML Semantic Debugging Assistant (RAG + LLM)
+# Parallel: Agentic Semantic Debugging System for Complex ML Pipelines
 
 ## Overview
 
-This project implements a Retrieval-Augmented Generation (RAG) system to diagnose common issues in machine learning pipelines. Given a user query about model failures, the system retrieves similar past incidents from a vector database and generates possible causes and fixes using an LLM.
+**Parallel** is an agentic AI system designed to automatically diagnose semantic and logical failures in complex machine learning pipelines.
 
-The system has been extended with intelligent routing, live agent decision-making, and an interactive frontend for real-time debugging workflows.
+Unlike traditional debugging tools, Parallel runs **after model execution**, analyzes logs and model artifacts, and performs **automated Root Cause Analysis (RCA)** using coordinated AI agents.
 
----
+The system combines:
 
-<p align="center">
-  <img src="snaps/snap_1.png" width="45%" />
-  <img src="snaps/snap_2.png" width="45%" />
-</p>
+• Retrieval-Augmented Generation (RAG)
+• Multi-agent reasoning via LangGraph
+• Structured tooling for model and data inspection
+• Automated failure diagnosis workflows
+
+Parallel acts as an **intelligent debugging layer** for modern ML systems.
+
+--- 
+
+<p align="center"> <img src="snaps/snap_1.png" width="45%" /> 
+<img src="snaps/snap_2.png" width="45%" /> </p> 
 
 ---
 
 ## Motivation
 
-Debugging ML systems in production is often time-consuming and relies heavily on past experience. This project simulates a system that leverages historical incidents, structured retrieval, and dynamic reasoning to assist in identifying root causes efficiently.
+Debugging production ML systems is difficult because failures are rarely isolated. Issues often arise from interactions between:
+
+• Data distributions
+• Feature pipelines
+• Model architecture
+• Training dynamics
+• Deployment environments
+
+Traditional logs provide signals, but not explanations.
+
+Parallel addresses this by:
+
+• Understanding logs semantically
+• Inspecting model internals
+• Analyzing feature importance
+• Detecting distribution shifts
+• Performing reasoning across components
+
+The result is **automated, interpretable root cause analysis** rather than manual debugging.
 
 ---
 
-## Architecture
+## Core Concept
 
-1. Incident data is embedded and stored in a vector database (FAISS)
-2. User queries are converted into embeddings
-3. A routing layer determines the appropriate data source or tool
-4. Relevant incidents are retrieved using similarity search
-5. A LangChain-powered agent dynamically decides:
+Parallel operates as an **agentic debugging workflow** triggered after model execution.
 
-   * Whether to query the database
-   * Whether to fetch system/model state
-6. Retrieved context is passed to an LLM
-7. The LLM generates diagnostic insights and recommendations
-8. Results are displayed via an interactive Streamlit frontend
+Instead of reacting to a single query, the system:
 
----
+1. Collects execution artifacts
+2. Routes signals to specialized tools
+3. Aggregates structured diagnostics
+4. Performs reasoning across results
+5. Produces root cause explanations and fixes
 
-## Key Enhancements
-
-* **Routing-Based Database Access**
-
-  * Intelligent selection of retrieval pathways based on query type
-
-* **Agent-Based Decision Making**
-
-  * Dynamic tool usage using LangChain agents
-  * Enables context-aware reasoning beyond static RAG
-
-* **Live System State Retrieval**
-
-  * Simulates fetching runtime model/system signals
-
-* **Interactive Frontend**
-
-  * Built with Streamlit for real-time querying and visualization
+This transforms ML debugging from **reactive troubleshooting** into **structured investigation**.
 
 ---
 
-## Example
+## System Architecture
 
-### Input
+Parallel is built using **LangGraph-based agent orchestration**, enabling modular reasoning workflows.
+
+### High-Level Pipeline
+
+1. Model execution completes
+2. Logs and artifacts are collected
+3. LangGraph agent workflow begins
+4. Router determines relevant diagnostic tools
+5. Tools analyze specific components
+6. Results are aggregated
+7. LLM performs Root Cause Analysis (RCA)
+8. Fix recommendations are generated
+9. Results are displayed via interactive UI
+
+---
+
+## Agent Workflow (LangGraph)
+
+The system uses multiple specialized tools coordinated through LangGraph.
+
+### Router Agent
+
+Determines which tools to invoke based on observed signals.
+
+Possible routing targets:
+
+• Log Analysis Tool
+• Data Distribution Tool
+• Feature Importance Tool
+• Model Architecture Tool
+• Retrieval Tool (historical incidents)
+
+---
+
+### Diagnostic Tools
+
+Each tool focuses on a specific system component.
+
+#### Log Trace Analyzer
+
+Parses structured logs and identifies anomalies such as:
+
+• sudden accuracy drops
+• exploding gradients
+• training instability
+• inference mismatches
+
+Produces semantic summaries of failure patterns.
+
+---
+
+#### Feature Importance Analyzer
+
+Evaluates model feature usage to detect:
+
+• feature collapse
+• unused features
+• spurious correlations
+• feature drift
+
+Supports explainability-based debugging.
+
+---
+
+#### Model Architecture Inspector
+
+Analyzes model configuration and structure.
+
+Detects:
+
+• incompatible layers
+• incorrect dimensions
+• activation misuse
+• architecture misalignment
+
+Useful for deep learning pipelines.
+
+---
+
+#### Data Distribution Analyzer
+
+Compares training and inference distributions.
+
+Identifies:
+
+• covariate shift
+• class imbalance
+• distribution drift
+• missing value anomalies
+
+Supports robust deployment debugging.
+
+---
+
+#### Historical Incident Retrieval (RAG)
+
+Retrieves similar past failures from a vector database.
+
+Workflow:
+
+1. Incident embeddings stored in FAISS
+2. Query embedding generated
+3. Similar incidents retrieved
+4. Used as contextual memory
+
+Provides **experience-based reasoning**.
+
+---
+
+## Root Cause Analysis (RCA Engine)
+
+All diagnostic outputs are aggregated into a structured reasoning step.
+
+The RCA engine:
+
+• correlates signals across tools
+• identifies primary failure causes
+• ranks contributing factors
+• proposes corrective actions
+
+Output includes:
+
+### Root Causes
+
+Primary issues responsible for failure.
+
+### Contributing Signals
+
+Secondary symptoms supporting the diagnosis.
+
+### Suggested Fixes
+
+Actionable recommendations to resolve issues.
+
+---
+
+## Example Workflow
+
+### Input Signal
 
 ```
 Model accuracy dropped after deployment
 ```
 
+### Automated Investigation
+
+Parallel performs:
+
+• Log inspection
+• Distribution comparison
+• Feature usage analysis
+• Historical incident retrieval
+
 ### Output
 
-* Possible causes:
+**Root Causes**
 
-  * Data distribution shift
-  * Feature mismatch
+• Data distribution shift detected
+• Feature normalization mismatch
 
-* Suggested fixes:
+**Supporting Signals**
 
-  * Retrain with updated dataset
-  * Validate preprocessing pipeline
+• Drift detected in 3 key features
+• Inference data mean shifted by +2.3σ
+
+**Suggested Fixes**
+
+• Retrain model using updated dataset
+• Align preprocessing pipelines
+• Add monitoring alerts for feature drift
 
 ---
 
 ## Tech Stack
 
-* Python
-* FAISS (vector database)
-* LangChain (agent + tool orchestration)
-* LLM API (OpenAI or open-source models)
-* Streamlit (frontend UI)
+Core technologies powering Parallel:
+
+**Programming**
+
+• Python
+
+**Agent Framework**
+
+• LangGraph
+• LangChain
+
+**Vector Database**
+
+• FAISS
+
+**LLM Integration**
+
+• OpenAI API or open-source models
+
+**Frontend**
+
+• Streamlit
+
+**Data Handling**
+
+• NumPy
+• Pandas
+• PyTorch / TensorFlow (optional integration)
 
 ---
 
@@ -99,65 +276,166 @@ Model accuracy dropped after deployment
 project/
 │── data/
 │   └── incidents.json
+
 │── rag/
 │   ├── embed.py
 │   ├── retrieve.py
+
 │── agent/
-│   └── logic.py
+│   ├── router.py
+│   ├── workflow.py
+│   ├── logic.py
+
+│── tools/
+│   ├── log_analyzer.py
+│   ├── feature_analyzer.py
+│   ├── model_inspector.py
+│   ├── data_analyzer.py
+
 │── snaps/
 │   ├── screen1.png
 │   ├── screen2.png
-│── app.py              # Streamlit frontend
-│── main.py
+
+│── app.py              # Streamlit UI
+│── main.py             # Pipeline entry
 │── README.md
 ```
 
 ---
 
-## How It Works
+## Intelligent Routing Layer
 
-1. Incident descriptions are converted into embeddings
-2. Stored in a FAISS index for fast similarity search
-3. User query is embedded and routed intelligently
-4. Agent determines whether to:
+Routing logic dynamically determines diagnostic pathways.
 
-   * Retrieve past incidents
-   * Query system/model state
-5. Relevant context is aggregated
-6. LLM generates root cause analysis and suggested fixes
-7. Output is displayed in an interactive UI
+Instead of static execution, the system selects tools based on:
+
+• log patterns
+• model signals
+• data characteristics
+• prior failures
+
+This enables **context-aware debugging workflows**.
+
+---
+
+## Live System State Retrieval
+
+Parallel supports simulated or real runtime signal access.
+
+Examples:
+
+• model gradients
+• training metrics
+• inference logs
+• resource usage
+
+This allows deeper system introspection.
+
+
+## Key Capabilities
+
+### Automated Root Cause Analysis
+
+Eliminates manual investigation loops.
+
+---
+
+### Multi-Tool Reasoning
+
+Combines signals from:
+
+• logs
+• data
+• model
+• architecture
+
+---
+
+### Agentic Debugging Workflows
+
+LangGraph enables:
+
+• dynamic tool orchestration
+• structured reasoning chains
+• modular extensibility
+
+---
+
+### Experience-Based Diagnosis
+
+Uses historical incident retrieval to improve accuracy.
 
 ---
 
 ## Future Improvements
 
-* Integrate real system logs and monitoring pipelines
-* Add reranking for improved retrieval quality
-* Implement evaluation metrics for response quality
-* Expand agent tooling for deeper diagnostics
-* Add memory for session-based debugging workflows
+Planned extensions include:
+
+• Integration with real monitoring systems
+• Advanced reranking for retrieval
+• Continuous learning from past failures
+• Session-based debugging memory
+• Visualization dashboards for RCA graphs
+• Automated retraining triggers
+• Multi-model system debugging support
 
 ---
 
 ## Why This Project Matters
 
-* Demonstrates practical use of RAG in ML systems
-* Showcases agent-based reasoning with tool usage
-* Highlights end-to-end LLM application development
-* Focuses on real-world engineering problem solving
+Parallel demonstrates the evolution of debugging systems from:
+
+**Logs → Insights → Autonomous Diagnosis**
+
+It showcases:
+
+• Agentic AI system design
+• LangGraph orchestration
+• Real-world ML debugging workflows
+• Retrieval-based reasoning
+• Multi-modal diagnostics
+
+This project represents a step toward **self-debugging ML systems**.
 
 ---
 
 ## Getting Started
 
-1. Clone the repository
-2. Install dependencies
-3. Run embedding pipeline
-4. Launch the Streamlit app:
+### 1. Clone Repository
 
-   ```
-   streamlit run app.py
-   ```
-5. Start querying the system
+```
+git clone <repo-url>
+cd project
+```
 
 ---
+
+### 2. Install Dependencies
+
+```
+pip install -r requirements.txt
+```
+
+---
+
+
+### 3. Run Parallel
+
+```
+py runner.py
+```
+
+---
+
+## Design Philosophy
+
+Parallel is built around three principles:
+
+**Autonomy**
+Systems should debug themselves.
+
+**Explainability**
+Root causes must be interpretable.
+
+**Modularity**
+New tools should be easy to integrate.
