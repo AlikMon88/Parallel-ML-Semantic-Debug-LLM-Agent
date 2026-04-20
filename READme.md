@@ -115,7 +115,7 @@ Produces semantic summaries of failure patterns.
 
 ---
 
-#### Feature Importance Analyzer
+#### SHAP Analyzer
 
 Evaluates model feature usage to detect:
 
@@ -266,7 +266,7 @@ Core technologies powering Parallel:
 
 • NumPy
 • Pandas
-• PyTorch / TensorFlow (optional integration)
+• PyTorch
 
 ---
 
