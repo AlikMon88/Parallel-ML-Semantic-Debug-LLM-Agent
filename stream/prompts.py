@@ -457,13 +457,13 @@ def get_human_instruction_e4():
 
     main_run_shap_analysis
 
-    6. For debugging guidance through internal db files:
+    6. For debugging guidance through internal db files (ALWAYS RUN for grounding):
 
     Call:
 
     search_db_files
 
-    7. For debugging guidance through framework docs:
+    7. For debugging guidance through framework docs (ALWAYS RUN for grounding):
 
     Call:
 

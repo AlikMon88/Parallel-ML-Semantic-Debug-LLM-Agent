@@ -67,7 +67,7 @@ def train_imbalanced_mnist():
     optimizer = optim.Adam(model.parameters(), lr=0.001)
 
     logs = {"run_info": "MNIST Categorical Classification", "epochs":[]}
-    epochs_len = 30
+    epochs_len = 15
     
     for epoch in range(1, epochs_len + 1):  
         model.train()
