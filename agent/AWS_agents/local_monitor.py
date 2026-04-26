@@ -143,6 +143,7 @@ def get_sys_instructions_e2():
     {{
         "utc_timestamp": "2026-04-26T14:30:00Z",
         "epoch": 15,
+        "train_loss": 0.0009,
         "is_trigger": false,
         "trigger_reason": "Training stable. No anomalies detected."
     }}
